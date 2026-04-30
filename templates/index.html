@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="eng">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stress-Less Learning Platform Home</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+
+<!-- Navigation -->
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <h2>Stress-Less</h2>
+            </div>
+
+            <ul class = "nav-links">
+                <li><a href="{{ url_for('index') }}">Home</a></li>
+                <li><a href="{{ url_for('lessons') }}">Lessons</a></li>
+                <li><a href="{{ url_for('about') }}">About</a></li>
+            </ul>
+        </nav>
+    </header>
+</body>
+</html>
+
+
+<main class="main-content">
+    <!-- New Lesson -->
+    <section class="focus">
+        <h1>Welcome back!</h1>
+        <p>Continue your learning journey with personalized lessons and track your progress.</p>
+        <button class="standard-button">Start New Lesson</button>
+    </section>
+
+    <!-- Progress Report -->
+    <section class="progress-overview">
+        <h2 class="section-title">Your Progress</h2>
+        <div class="card-layout">
+            <div class="card">
+                <h3>Completed Lessons:</h3>
+                <p>0</p>
+            </div>
+            <div class="card">
+                <h3>Completed Sections:</h3>
+                <p>0</p>
+            </div>
+            <div class="card">
+                <h3>Average Score:</h3>
+                <p>0%</p>
+            </div>
+        </div>
+    </section>
+</main>
