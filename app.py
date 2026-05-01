@@ -286,7 +286,10 @@ def about():
 def lessons():
     user_id = get_user_id()
     lessons_data = fetch_lessons(user_id)
-    resp = make_response(render_template('lessons.html', lessons=lessons_data))
+    filter_value = request.args.get('filter', 'all').lower()
+    if filter_value not in ('all', 'completed', 'in_progress', 'not_started'):
+        filter_value = 'all'
+    resp = make_response(render_template('lessons.html', lessons=lessons_data, selected_filter=filter_value))
     set_user_cookie(resp, user_id)
     return resp
 
