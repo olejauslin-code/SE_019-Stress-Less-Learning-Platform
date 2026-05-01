@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ lesson.name }} — Stress-Less</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <h2>Stress-Less</h2>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="{{ url_for('index') }}">Home</a></li>
+                    <li><a href="{{ url_for('lessons') }}">Lessons</a></li>
+                    <li><a href="{{ url_for('about') }}">About</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-content container">
+        <section class="hero">
+            <h1>{{ lesson.name }}</h1>
+            <p>{{ lesson.description or 'No description available for this lesson.' }}</p>
+        </section>
+
+        <section class="section lesson-details">
+            <div class="lesson-meta">
+                <p><strong>Difficulty:</strong> {{ lesson.difficulty | difficulty_label }}</p>
+                <p><strong>Duration:</strong> {{ lesson.time | format_duration }}</p>
+                <p><strong>Slides:</strong> {{ lesson.slide_count or 'N/A' }}</p>
+                <p><strong>Progress:</strong> {{ (lesson.progress or 0) | round(0) }}%</p>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: {{ (lesson.progress or 0) | round(0) }}%;"></div>
+                </div>
+            </div>
+            <div class="lesson-actions">
+                <a class="cta-button" href="{{ url_for('lesson_slide', lesson_id=lesson.lesson_id, slide_number=1) }}">Start Lesson</a>
+                <a class="lesson-link" href="{{ url_for('lessons') }}">Back to all lessons</a>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

@@ -235,6 +235,33 @@ CREATE TABLE public.slides (
 ALTER TABLE public.slides OWNER TO postgres;
 
 --
+-- Name: user_lesson_progress; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.user_lesson_progress (
+    user_id character varying(36) NOT NULL,
+    lesson_id integer NOT NULL,
+    progress real DEFAULT 0
+);
+
+
+ALTER TABLE public.user_lesson_progress OWNER TO postgres;
+
+--
+-- Name: user_slide_completion; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.user_slide_completion (
+    user_id character varying(36) NOT NULL,
+    lesson_id integer NOT NULL,
+    slide_number integer NOT NULL,
+    completed boolean DEFAULT false
+);
+
+
+ALTER TABLE public.user_slide_completion OWNER TO postgres;
+
+--
 -- Name: slides_slide_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -497,6 +524,22 @@ ALTER TABLE ONLY public.slides
 
 
 --
+-- Name: user_lesson_progress user_lesson_progress_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.user_lesson_progress
+    ADD CONSTRAINT user_lesson_progress_pkey PRIMARY KEY (user_id, lesson_id);
+
+
+--
+-- Name: user_slide_completion user_slide_completion_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.user_slide_completion
+    ADD CONSTRAINT user_slide_completion_pkey PRIMARY KEY (user_id, lesson_id, slide_number);
+
+
+--
 -- Name: question_response question_response_question_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -534,6 +577,22 @@ ALTER TABLE ONLY public.slide_video
 
 ALTER TABLE ONLY public.slides
     ADD CONSTRAINT slides_lesson_id_fkey FOREIGN KEY (lesson_id) REFERENCES public.lessons(lesson_id);
+
+
+--
+-- Name: user_lesson_progress user_lesson_progress_lesson_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.user_lesson_progress
+    ADD CONSTRAINT user_lesson_progress_lesson_id_fkey FOREIGN KEY (lesson_id) REFERENCES public.lessons(lesson_id);
+
+
+--
+-- Name: user_slide_completion user_slide_completion_lesson_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.user_slide_completion
+    ADD CONSTRAINT user_slide_completion_lesson_id_fkey FOREIGN KEY (lesson_id) REFERENCES public.lessons(lesson_id);
 
 
 --

@@ -33,15 +33,15 @@
             <h2 class="section-title">Your Progress</h2>
             <div class="progress-stats">
                 <div class="stat-card">
-                    <div class="stat-number">0</div>
+                    <div class="stat-number">{{ stats.completed_lessons }}</div>
                     <div class="stat-label">Completed Lessons</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-number">0</div>
+                    <div class="stat-number">{{ stats.completed_sections }}</div>
                     <div class="stat-label">Completed Sections</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-number">0%</div>
+                    <div class="stat-number">{{ stats.average_score }}%</div>
                     <div class="stat-label">Average Score</div>
                 </div>
             </div>

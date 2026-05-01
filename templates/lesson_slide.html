@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ lesson.name }} — Slide {{ slide.count }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <h2>Stress-Less</h2>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="{{ url_for('index') }}">Home</a></li>
+                    <li><a href="{{ url_for('lessons') }}">Lessons</a></li>
+                    <li><a href="{{ url_for('about') }}">About</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-content container">
+        <section class="hero">
+            <h1>{{ lesson.name }}</h1>
+            <p>Slide {{ slide.count }} of {{ slide_count }}</p>
+            <div class="lesson-progress">
+                <span>Lesson Progress: {{ (lesson.progress or 0) | round(0) }}%</span>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: {{ (lesson.progress or 0) | round(0) }}%;"></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="slide-card">
+            <h2>{{ slide.title }}</h2>
+            <div class="slide-body">
+                <p>{{ slide.body }}</p>
+            </div>
+
+            {% if slide.type == 'image' and images %}
+            <div class="slide-media">
+                {% for image in images %}
+                    <img src="{{ image.image_url }}" alt="Slide image">
+                {% endfor %}
+            </div>
+            {% elif slide.type == 'video' and videos %}
+            <div class="slide-media">
+                {% for video in videos %}
+                    {% if video.embed_url %}
+                        <iframe width="100%" height="400" src="{{ video.embed_url }}" frameborder="0" allowfullscreen></iframe>
+                    {% else %}
+                        <p><a href="{{ video.video_url }}" target="_blank" rel="noopener noreferrer">Watch the lesson video</a></p>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            {% if slide.type == 'question' and questions %}
+            <div class="slide-questions">
+                <h3>Quiz</h3>
+                {% for question in questions %}
+                    <div class="slide-question">
+                        <p><strong>{{ loop.index }}. {{ question.question }}</strong></p>
+                        {% if question.responses %}
+                        <div class="slide-question-list">
+                            {% for response in question.responses %}
+                                <label class="slide-choice">
+                                    <input type="radio"
+                                           name="question-{{ question.question_id }}"
+                                           value="{{ response.response_id }}"
+                                           data-correct="{{ 'true' if response.is_correct else 'false' }}">
+                                    {{ response.response_text }}
+                                </label>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        <p>No response options are available.</p>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+                <div id="answer-status" class="slide-status">Select an answer for every question.</div>
+            </div>
+            {% endif %}
+
+            <div class="slide-nav">
+                {% if prev_slide %}
+                    <a class="slide-link-button" href="{{ url_for('lesson_slide', lesson_id=lesson.lesson_id, slide_number=prev_slide) }}">Previous</a>
+                {% else %}
+                    <span class="slide-link-button" style="opacity: 0.5; cursor: default;">Previous</span>
+                {% endif %}
+
+                {% if slide.type == 'question' and questions %}
+                    <button id="slide-action-button"
+                            class="slide-action-button disabled"
+                            type="button"
+                            data-target="{{ url_for('lesson_slide', lesson_id=lesson.lesson_id, slide_number=next_slide) if next_slide else url_for('complete_lesson', lesson_id=lesson.lesson_id) }}"
+                            disabled>
+                        {{ 'Next Slide' if next_slide else 'Complete Lesson' }}
+                    </button>
+                {% else %}
+                    {% if next_slide %}
+                        <a class="slide-action-button" href="{{ url_for('lesson_slide', lesson_id=lesson.lesson_id, slide_number=next_slide) }}">Next Slide</a>
+                    {% else %}
+                        <a class="slide-action-button" href="{{ url_for('complete_lesson', lesson_id=lesson.lesson_id) }}">Complete Lesson</a>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </section>
+    </main>
+
+    {% if slide.type == 'question' and questions %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const answerStatus = document.getElementById('answer-status');
+            const actionButton = document.getElementById('slide-action-button');
+            const inputs = Array.from(document.querySelectorAll('.slide-choice input[type="radio"]'));
+
+            const updateButton = () => {
+                const groups = {};
+                inputs.forEach(input => {
+                    groups[input.name] = groups[input.name] || [];
+                    groups[input.name].push(input);
+                });
+
+                let allSelected = true;
+                let allCorrect = true;
+
+                Object.values(groups).forEach(group => {
+                    const selected = group.find(input => input.checked);
+                    if (!selected) {
+                        allSelected = false;
+                        allCorrect = false;
+                        return;
+                    }
+                    if (selected.dataset.correct !== 'true') {
+                        allCorrect = false;
+                    }
+                });
+
+                if (!allSelected) {
+                    actionButton.disabled = true;
+                    actionButton.classList.add('disabled');
+                    answerStatus.textContent = 'Select an answer for every question.';
+                } else if (!allCorrect) {
+                    actionButton.disabled = true;
+                    actionButton.classList.add('disabled');
+                    answerStatus.textContent = 'The selected answers are not all correct.';
+                } else {
+                    actionButton.disabled = false;
+                    actionButton.classList.remove('disabled');
+                    answerStatus.textContent = 'All answers are correct. You may continue.';
+                }
+            };
+
+            inputs.forEach(input => input.addEventListener('change', updateButton));
+            updateButton();
+
+            actionButton.addEventListener('click', function () {
+                if (!actionButton.disabled) {
+                    window.location.href = actionButton.dataset.target;
+                }
+            });
+        });
+    </script>
+    {% endif %}
+</body>
+</html>

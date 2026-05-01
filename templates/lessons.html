@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -34,6 +34,7 @@
                 <button class="filter-btn">Completed</button>
                 <button class="filter-btn">In Progress</button>
                 <button class="filter-btn">Not Started</button>
+                <a href="{{ url_for('reset_progress') }}" class="filter-btn reset-btn">Reset My Progress</a>
             </div>
             <div class="search-container">
                 <input class="search-input" type="search" placeholder="Search Lessons...">
@@ -41,50 +42,26 @@
         </section>
 
         <section class="section">
-            <h2 class="section-title">Online Safety Basics</h2>
+            <h2 class="section-title">Available Lessons</h2>
             <div class="lessons-grid">
+                {% for lesson in lessons %}
                 <div class="lesson-card">
-                    <div class="lesson-title">What is Personal Information?</div>
-                    <div class="lesson-description">Learn what information to keep private online.</div>
+                    <div class="lesson-title">{{ lesson.name }}</div>
+                    <div class="lesson-description">{{ lesson.description or 'No description available.' }}</div>
                     <div class="lesson-progress">
-                        <div class="progress-bar"><div class="progress-fill" style="width: 70%;"></div></div>
-                        <div class="progress-text">Beginner • 10 mins</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: {{ (lesson.progress or 0) | round(0) }}%;"></div>
+                        </div>
+                        <div class="progress-text">{{ lesson.difficulty | difficulty_label }} • {{ lesson.time | format_duration }}</div>
                     </div>
-                    <a class="lesson-link" href="#">Start Lesson</a>
+                    <a class="lesson-link" href="{{ url_for('lesson_detail', lesson_id=lesson.lesson_id) }}">Start Lesson</a>
                 </div>
+                {% else %}
                 <div class="lesson-card">
-                    <div class="lesson-title">Creating Safe Passwords</div>
-                    <div class="lesson-description">How to make strong passwords that protect your accounts.</div>
-                    <div class="lesson-progress">
-                        <div class="progress-bar"><div class="progress-fill" style="width: 40%;"></div></div>
-                        <div class="progress-text">Beginner • 5 mins</div>
-                    </div>
-                    <a class="lesson-link" href="#">Start Lesson</a>
+                    <div class="lesson-title">No lessons found</div>
+                    <div class="lesson-description">Your lessons database does not contain any entries yet.</div>
                 </div>
-            </div>
-        </section>
-
-        <section class="section">
-            <h2 class="section-title">Social Media Awareness</h2>
-            <div class="lessons-grid">
-                <div class="lesson-card">
-                    <div class="lesson-title">Understanding Social Media</div>
-                    <div class="lesson-description">What social media is and how it works.</div>
-                    <div class="lesson-progress">
-                        <div class="progress-bar"><div class="progress-fill" style="width: 55%;"></div></div>
-                        <div class="progress-text">Beginner • 10 mins</div>
-                    </div>
-                    <a class="lesson-link" href="#">Start Lesson</a>
-                </div>
-                <div class="lesson-card">
-                    <div class="lesson-title">Privacy Settings Matter</div>
-                    <div class="lesson-description">How to set up your social media settings safely.</div>
-                    <div class="lesson-progress">
-                        <div class="progress-bar"><div class="progress-fill" style="width: 30%;"></div></div>
-                        <div class="progress-text">Intermediate • 20 mins</div>
-                    </div>
-                    <a class="lesson-link" href="#">Start Lesson</a>
-                </div>
+                {% endfor %}
             </div>
         </section>
     </main>

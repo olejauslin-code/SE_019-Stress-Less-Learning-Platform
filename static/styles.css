@@ -87,7 +87,7 @@ nav {
 
 .cta-button {
     display: inline-block;
-    background: linear-gradient(135deg, #000000, #667eea);
+    background: linear-gradient(135deg, #667eea, #764ba2);
     color: white;
     padding: 15px 30px;
     text-decoration: none;
@@ -99,7 +99,6 @@ nav {
 }
 
 .cta-button:hover {
-    background: linear-gradient(135deg, #000000, #667eea);
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
 }
@@ -123,7 +122,7 @@ nav {
 }
 
 .stat-card {
-    background: linear-gradient(135deg, #000000, #667eea);
+    background: linear-gradient(135deg, #667eea, #764ba2);
     color: white;
     padding: 2rem;
     border-radius: 15px;
@@ -163,8 +162,8 @@ nav {
 }
 
 .lesson-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
 }
 
 .lesson-title {
@@ -180,7 +179,15 @@ nav {
 }
 
 .lesson-progress {
-    margin-bottom: 1rem;
+    margin: 1rem 0;
+    text-align: center;
+}
+
+.lesson-progress span {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #2c3e50;
 }
 
 .progress-bar {
@@ -212,6 +219,119 @@ nav {
 
 .lesson-link:hover {
     color: #764ba2;
+}
+
+.slide-card,
+.lesson-details {
+    background: white;
+    border-radius: 15px;
+    padding: 1.5rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e1e8ed;
+    margin-bottom: 2rem;
+}
+
+.slide-card h2,
+.slide-card h3 {
+    color: #2c3e50;
+    margin-bottom: 0.75rem;
+}
+
+.slide-body,
+.slide-media,
+.slide-questions {
+    margin-top: 1rem;
+}
+
+.slide-media img,
+.slide-media iframe {
+    width: 100%;
+    border-radius: 12px;
+    margin-top: 1rem;
+}
+
+.slide-question {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    border-radius: 12px;
+    background: #f9fbff;
+    border: 1px solid #e1e8ed;
+}
+
+.slide-question p {
+    margin-bottom: 0.75rem;
+}
+
+.slide-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.slide-question-list {
+    display: grid;
+    gap: 0.75rem;
+}
+
+.slide-choice {
+    display: block;
+    padding: 0.9rem 1rem;
+    border-radius: 12px;
+    border: 1px solid #e1e8ed;
+    background: #fcfcfe;
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.slide-choice input {
+    margin-right: 0.75rem;
+}
+
+.slide-choice:hover {
+    background: #f4f7ff;
+}
+
+.slide-status {
+    margin-top: 1rem;
+    font-weight: 600;
+    color: #333;
+}
+
+.slide-action-button,
+.slide-link-button {
+    display: inline-block;
+    text-decoration: none;
+    padding: 0.9rem 1.5rem;
+    border-radius: 999px;
+    font-weight: bold;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border: none;
+}
+
+.slide-action-button {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+}
+
+.slide-action-button.disabled,
+.slide-action-button[disabled] {
+    background: #cbd5e1;
+    color: #666;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+.slide-link-button {
+    background: #f2f6ff;
+    color: #2c3e50;
+}
+
+.slide-action-button:hover,
+.slide-link-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(102, 126, 234, 0.18);
 }
 
 .categories-grid {
@@ -348,6 +468,8 @@ nav {
     cursor: pointer;
     transition: all 0.3s ease;
     font-size: 0.95rem;
+    text-decoration: none;
+    display: inline-block;
 }
 
 .filter-btn:hover {
@@ -361,6 +483,17 @@ nav {
     border-color: #667eea;
     color: white;
     box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.reset-btn {
+    background: #dc3545;
+    border-color: #dc3545;
+    color: white;
+}
+
+.reset-btn:hover {
+    background: #c82333;
+    border-color: #c82333;
 }
 
 /* Search Container */
@@ -557,12 +690,7 @@ nav {
     gap: 0.25rem;
 }
 
-/* Enhanced Lesson Card Hover Effects */
-.lesson-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-}
-
+/* Enhanced Lesson Card Status Styling */
 .lesson-card.completed {
     border-left: 4px solid #28a745;
 }
