@@ -49,17 +49,21 @@ CORRECT_ANSWER_TEXT = {
 
 def get_db_connection():
     database_url = os.getenv('DB_URL') or os.getenv('DATABASE_URL') or os.getenv('render_postgresql_url')
-    if database_url:
-        return psycopg.connect(database_url, row_factory=psycopg.rows.dict_row)
+    try:
+        if database_url:
+            return psycopg.connect(database_url, row_factory=psycopg.rows.dict_row)
 
-    return psycopg.connect(
-        host=os.getenv('DB_HOST', 'localhost'),
-        port=os.getenv('DB_PORT', '5432'),
-        dbname=os.getenv('DB_NAME'),
-        user=os.getenv('DB_USER'),
-        password=os.getenv('DB_PASSWORD'),
-        row_factory=psycopg.rows.dict_row,
-    )
+        return psycopg.connect(
+            host=os.getenv('DB_HOST', 'localhost'),
+            port=os.getenv('DB_PORT', '5432'),
+            dbname=os.getenv('DB_NAME'),
+            user=os.getenv('DB_USER'),
+            password=os.getenv('DB_PASSWORD'),
+            row_factory=psycopg.rows.dict_row,
+        )
+    except Exception:
+        app.logger.exception('Database connection failed')
+        raise
 
 
 def get_user_id():
