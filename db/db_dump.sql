@@ -2,8 +2,6 @@
 -- PostgreSQL database dump
 --
 
-\restrict 40ro7wgRU74TgpcP4n5d0DLvBy7d3xQiEv5Q4a3S024wc0tDnLqlavn74h34TZe
-
 -- Dumped from database version 18.3
 -- Dumped by pg_dump version 18.3
 
@@ -598,6 +596,3 @@ ALTER TABLE ONLY public.user_slide_completion
 --
 -- PostgreSQL database dump complete
 --
-
-\unrestrict 40ro7wgRU74TgpcP4n5d0DLvBy7d3xQiEv5Q4a3S024wc0tDnLqlavn74h34TZe
-
