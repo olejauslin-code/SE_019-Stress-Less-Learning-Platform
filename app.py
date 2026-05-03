@@ -48,6 +48,10 @@ CORRECT_ANSWER_TEXT = {
 
 
 def get_db_connection():
+    database_url = os.getenv('DATABASE_URL') or os.getenv('render_postgresql_url')
+    if database_url:
+        return psycopg.connect(database_url, row_factory=psycopg.rows.dict_row)
+
     return psycopg.connect(
         host=os.getenv('DB_HOST', 'localhost'),
         port=os.getenv('DB_PORT', '5432'),
