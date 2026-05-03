@@ -26,20 +26,20 @@ psql -U postgres
 
 Now create the database and user, and then exit psql:
 
-CREATE DATABASE <name>;
-CREATE USER <username> WITH PASSWORD <password>;
-GRANT ALL PRIVILEGES ON DATABASE <name> TO <username>;
+CREATE DATABASE 'db name';
+CREATE USER 'username' WITH PASSWORD 'password';
+GRANT ALL PRIVILEGES ON DATABASE 'db name' TO 'username';
 
 \q
 
 
 Now apply the schema that is included in the db subdirectory:
 
-psql -U <username> -d <name> -h localhost -f "path to db_dump.sql"
+psql -U 'username' -d 'db name' -h localhost -f "path to db_dump.sql"
 
 Next create a .env file in the main directory and fill it out with the information of your database:
 DB_HOST=localhost
-DB_NAME=name
+DB_NAME=db name
 DB_USER=username
 DB_PASSWORD=your-password
 DB_PORT=5432
